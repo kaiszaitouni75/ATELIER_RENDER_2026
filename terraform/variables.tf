@@ -1,16 +1,31 @@
 variable "render_api_key" {
-  type      = string
-  sensitive = true
+  description = "Render API Key"
+  type        = string
+  sensitive   = true
 }
 
 variable "render_owner_id" {
-  type = string
+  description = "Render Owner ID"
+  type        = string
+}
+
+variable "github_actor" {
+  description = "GitHub username"
+  type        = string
 }
 
 variable "image_url" {
-  type = string
+  description = "Docker image URL"
+  type        = string
 }
 
 variable "image_tag" {
-  type = string
+  description = "Docker image tag"
+  type        = string
+}
+
+variable "database_url" {
+  description = "PostgreSQL connection URL"
+  type        = string
+  sensitive   = true
 }
