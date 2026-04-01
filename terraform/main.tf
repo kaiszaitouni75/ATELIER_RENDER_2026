@@ -17,6 +17,7 @@ variable "github_actor" {
   type        = string
 }
 
+# --- FLASK ---
 resource "render_web_service" "flask_app" {
   name   = "flask-render-iac-${var.github_actor}"
   plan   = "free"
@@ -32,6 +33,23 @@ resource "render_web_service" "flask_app" {
   env_vars = {
     ENV = {
       value = "production"
+    }
+    DATABASE_URL = {
+      value = var.database_url
+    }
+  }
+}
+
+# --- ADMINER ---
+resource "render_web_service" "adminer" {
+  name   = "adminer-${var.github_actor}"
+  plan   = "free"
+  region = "frankfurt"
+
+  runtime_source = {
+    image = {
+      image_url = "adminer"
+      tag       = "latest"
     }
   }
 }
