@@ -1,19 +1,12 @@
-from flask import Flask
 import os
+from flask import Flask
+import psycopg2
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Flask + Docker + GHCR + Terraform + Render"
-
-@app.route("/health")
-def health():
-    return {"status": "Tout est ok ou pas"}
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    return {"status": "ok"}
 
 @app.route("/info")
 def info():
@@ -26,3 +19,32 @@ def info():
 @app.route("/env")
 def env():
     return {"env": os.getenv("ENV")}
+
+@app.route("/db")
+def db():
+    try:
+        conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+        conn.close()
+        return {"db": "connected"}
+    except Exception as e:
+        return {"db": "error", "detail": str(e)}
+```
+
+Et dans ton `Dockerfile`, assure-toi que `psycopg2` est installé. Vérifie ton `requirements.txt` :
+```
+flask
+psycopg2-binary
+```
+
+---
+
+### 4️⃣ React — Dans Render (interface)
+
+Structure minimale à créer dans ton repo :
+```
+frontend/
+├── package.json
+├── public/
+│   └── index.html
+└── src/
+    └── index.js
